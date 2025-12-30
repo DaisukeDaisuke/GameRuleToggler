@@ -15,7 +15,6 @@ use DaisukeDaisuke\GameRuleToggler\rule\ShowCoordinatesRule;
 use DaisukeDaisuke\GameRuleToggler\rule\LocatorBarRule;
 use DaisukeDaisuke\GameRuleToggler\rule\AbstractBoolRule;
 use Symfony\Component\Filesystem\Path;
-use pocketmine\Server;
 use pocketmine\scheduler\ClosureTask;
 
 final class Main extends PluginBase implements Listener{
@@ -54,7 +53,7 @@ final class Main extends PluginBase implements Listener{
 
 		$autosave = $this->setting->getAutosaveInterval();
 		if($autosave > 0){
-			$this->getScheduler()->scheduleDelayedTask(new ClosureTask(function (): void{
+			$this->getScheduler()->scheduleDelayedTask(new ClosureTask(function() : void{
 				foreach($this->rules as $rule){
 					$rule->save();
 				}

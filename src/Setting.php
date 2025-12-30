@@ -7,7 +7,6 @@ namespace DaisukeDaisuke\GameRuleToggler;
 use pocketmine\utils\Config;
 
 final class Setting{
-
 	private bool $locatorBarForce;
 	private bool $locatorBarValue;
 	private bool $locatorBarDefault;
