@@ -1,0 +1,7 @@
+---
+name: GameRuleTogglers
+version: 1.0.0
+main: DaisukeDaisuke\GameRuleToggler\Main
+api: 5.30.0
+src-namespace-prefix: DaisukeDaisuke\GameRuleToggler
+...

@@ -1,0 +1,52 @@
+# EnableLocatorBar - config.yml
+# サーバー全体の挙動を制御します。
+# プレイヤーごとの設定は json ファイルに保存されます。
+
+# コンフィグのバージョン
+version:
+  generated: v1.0.0
+
+rules:
+  locator-bar:
+    # true にすると、全プレイヤーに強制適用されます
+    force: false
+
+    # trueにすると、opだけが使用可能になります。
+    force-op-only: false
+
+    # force が true の場合に適用される値
+    value: true
+
+    # プレイヤー設定が存在しない場合の初期値
+    default: true
+
+  show-coordinates:
+    # true にすると、全プレイヤーに強制適用されます
+    force: false
+
+    # trueにすると、opだけが使用可能になります。
+    force-op-only: false
+
+    # force が true の場合に適用される値
+    value: true
+
+    # プレイヤー設定が存在しない場合の初期値
+    default: true
+
+  do-immediate-respawn:
+    # true にすると、全プレイヤーに強制適用されます
+    force: false
+
+    # trueにすると、opだけが使用可能になります。
+    force-op-only: false
+
+    # force が true の場合に適用される値
+    value: true
+
+    # プレイヤー設定が存在しない場合の初期値
+    default: true
+
+# 定期保存設定
+autosave:
+  # 単位: 秒（3600 = 1時間）
+  interval: 3600
