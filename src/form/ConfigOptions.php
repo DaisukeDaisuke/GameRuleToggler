@@ -7,6 +7,7 @@ namespace DaisukeDaisuke\GameRuleToggler\form;
 use DaisukeDaisuke\AwaitFormOptions\FormOptions;
 use DaisukeDaisuke\GameRuleToggler\Main;
 use pocketmine\player\Player;
+use cosmicpe\awaitform\FormControl;
 
 final class ConfigOptions extends FormOptions {
 
@@ -24,7 +25,7 @@ final class ConfigOptions extends FormOptions {
 
 	private function flow() : \Generator{
 		[$choice] = yield from $this->request([
-			\cosmicpe\awaitform\FormControl::dropdown(
+			FormControl::dropdown(
 				"Edit target",
 				[
 					"Locator Bar",
@@ -43,7 +44,7 @@ final class ConfigOptions extends FormOptions {
 			"Immediate Respawn" =>
 			new EditRuleOptions($this->plugin, $this->player, "do-immediate-respawn", "Immediate Respawn"),
 			"Autosave Interval" =>
-			new EditAutosaveOptions($this->plugin, $this->player),
+			new EditAutosaveOptions($this->plugin, $this->player, "Autosave Interval Edit"),
 			default => null,
 		};
 	}

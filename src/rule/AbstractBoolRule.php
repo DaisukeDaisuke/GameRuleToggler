@@ -67,6 +67,10 @@ abstract class AbstractBoolRule{
 			return;
 		}
 
+		if(!$this->config->exists($player->getName())){
+			$this->setPlayerSavedValue($player->getName(), $this->defaultValue);
+		}
+
 		$value = $this->config->get($player->getName(), $this->defaultValue);
 		$this->apply($player, $value, true);
 	}
@@ -118,5 +122,13 @@ abstract class AbstractBoolRule{
 			$player = $player->getName();
 		}
 		return $this->config->get($player, $this->defaultValue);
+	}
+
+	public function isForcedValue() : bool{
+		return $this->forcedValue;
+	}
+
+	public function isForceOpOnly() : bool{
+		return $this->forceOpOnly;
 	}
 }

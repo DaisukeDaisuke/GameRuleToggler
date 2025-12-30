@@ -33,7 +33,7 @@ final class EditRuleOptions extends FormOptions implements SettingFormInterface{
 		$base = "rules.{$this->ruleKey}.";
 
 		$force = (bool) $cfg->getNested($base . "force", false);
-		$opOnly = (bool) $cfg->getNested($base . "op-only", false);
+		$opOnly = (bool) $cfg->getNested($base . "force-op-only", false);
 		$value = (bool) $cfg->getNested($base . "value", true);
 		$default = (bool) $cfg->getNested($base . "default", true);
 
@@ -44,10 +44,10 @@ final class EditRuleOptions extends FormOptions implements SettingFormInterface{
 			FormControl::toggle("Default value", $default),
 		]);
 
-		$cfg->setNested($base . "force", (bool) $nForce);
-		$cfg->setNested($base . "op-only", (bool) $nOpOnly);
-		$cfg->setNested($base . "value", (bool) $nValue);
-		$cfg->setNested($base . "default", (bool) $nDefault);
+		$cfg->setNested($base . "force", $nForce);
+		$cfg->setNested($base . "force-op-only", $nOpOnly);
+		$cfg->setNested($base . "value", $nValue);
+		$cfg->setNested($base . "default", $nDefault);
 		$this->plugin->saveConfig();
 
 		// 不変 Setting を再生成

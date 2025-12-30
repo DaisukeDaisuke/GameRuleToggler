@@ -30,6 +30,7 @@ use cosmicpe\awaitform\AwaitForm;
 use DaisukeDaisuke\GameRuleToggler\form\ConfigOptions;
 use DaisukeDaisuke\AwaitFormOptions\FormOptions;
 use DaisukeDaisuke\GameRuleToggler\form\SettingFormInterface;
+use pocketmine\Server;
 
 final class Main extends PluginBase implements Listener{
 
@@ -113,6 +114,28 @@ final class Main extends PluginBase implements Listener{
 	public function reloadSetting() : void{
 		$this->setting = new Setting($this->getConfig());
 		$this->regenerationRules();
+
+		foreach($this->rules as $rule){
+			if($rule->isForceOpOnly()){
+				$rule->clearAllSaved();
+			}
+			foreach($this->getServer()->getOnlinePlayers() as $onlinePlayer){
+				$playerName = $onlinePlayer->getName();
+				if($rule->isForce()){
+					$value = $rule->isForcedValue();
+					$rule->setPlayerSavedValue($playerName, $value);
+					$rule->applyToPlayer($onlinePlayer, $value, false);
+				}
+				if($rule->isForceOpOnly()){
+					$value = false;
+					if(Server::getInstance()->isOp($onlinePlayer->getName())){
+						$value = true;
+					}
+					$rule->setPlayerSavedValue($playerName, $value);
+					$rule->applyToPlayer($onlinePlayer, $value, !$rule->isForce());
+				}
+			}
+		}
 	}
 
 	public function getSetting() : Setting{
