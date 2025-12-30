@@ -8,4 +8,8 @@ projects:
     libs:
       - src: DaisukeDaisuke/AwaitFormOptions/AwaitFormOptions
         version: 3.0.2
+      - src: Cosmoverse/AwaitForm/AwaitForm
+        varsion: 0.0.3
+      - src: SOF3/await-generator/await-generator
+        varsion: 3.6.1
 ...
