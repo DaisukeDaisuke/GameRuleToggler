@@ -4,4 +4,19 @@ version: 1.0.0
 main: DaisukeDaisuke\GameRuleToggler\Main
 api: 5.30.0
 src-namespace-prefix: DaisukeDaisuke\GameRuleToggler
+commands:
+  rtseting:
+    description: Open your GameRule settings (public)
+    permission: gamereruletoggler.settings
+  rtsetall:
+    description: Admin UI to setall
+    permission: gamereruletoggler.admin
+  rtconfig:
+    description: Admin UI to config
+    permission: gamereruletoggler.admin
+permissions:
+  gamereruletoggler.settings:
+    default: true
+  gamereruletoggler.admin:
+    default: op
 ...

@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace DaisukeDaisuke\GameRuleToggler\rule;
@@ -14,9 +13,9 @@ abstract class AbstractBoolRule{
 
 	protected Config $config;
 	protected bool $force;
+	protected bool $forceOpOnly;
 	protected bool $forcedValue;
 	protected bool $defaultValue;
-	protected bool $forceOpOnly;
 	protected bool $dirty = false;
 
 	public function __construct(
@@ -37,16 +36,31 @@ abstract class AbstractBoolRule{
 	abstract protected function getCommandKey() : string;
 
 	protected function apply(Player $player, bool $value, bool $modifiable) : void{
-		if($this->forceOpOnly && !Server::getInstance()->isOp($player->getName())){
-			return;
-		}
-
 		$packet = GameRulesChangedPacket::create([
 			$this->getRuleName() => new BoolGameRule($value, $modifiable)
 		]);
 		$player->getNetworkSession()->sendDataPacket($packet);
 	}
 
+	// 公開版：特定プレイヤーへ即時適用（フォーム等から使用）
+	public function applyToPlayer(Player $player, bool $value, bool $modifiable) : void{
+		$this->apply($player, $value, $modifiable);
+	}
+
+	// 保存値を上書き（フォーム等から使用）
+	public function setPlayerSavedValue(string $playerName, bool $value) : void{
+		$this->config->set($playerName, $value);
+		$this->dirty = true;
+	}
+
+	// 全設定を消す
+	public function clearAllSaved() : void{
+		$this->config->setAll([]); // Config::setAll は存在する想定
+		$this->config->save();
+		$this->dirty = false;
+	}
+
+	// onJoin の既存ロジック
 	public function onJoin(Player $player) : void{
 		if($this->force){
 			$this->apply($player, $this->forcedValue, false);
@@ -57,8 +71,16 @@ abstract class AbstractBoolRule{
 		$this->apply($player, $value, true);
 	}
 
+	/**
+	 * @return bool 処理したら true
+	 */
 	public function onSettingCommand(Player $player, string $command) : bool{
 		if($this->force){
+			return false;
+		}
+
+		// op-only チェック
+		if($this->forceOpOnly && !Server::getInstance()->isOp($player->getName())){
 			return false;
 		}
 
@@ -85,5 +107,16 @@ abstract class AbstractBoolRule{
 			$this->config->save();
 			$this->dirty = false;
 		}
+	}
+
+	public function isForce() : bool{
+		return $this->force;
+	}
+
+	public function get(Player|string $player) : bool{
+		if($player instanceof Player){
+			$player = $player->getName();
+		}
+		return $this->config->get($player, $this->defaultValue);
 	}
 }
