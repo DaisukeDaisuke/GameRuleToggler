@@ -41,6 +41,10 @@ class PlayerSettingsOptions extends FormOptions{
 			$form["Respawn"] = FormControl::toggle("Respawn", $respawn);
 		}
 
+		if(count($form) === 0){
+			return;
+		}
+
 		$array = yield from $this->request($form);
 		if(isset($array["Locator"])){
 			$locatorResult = $array["Locator"];
