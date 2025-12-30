@@ -44,6 +44,7 @@ final class ConfigOptions extends FormOptions {
 			new EditRuleOptions($this->plugin, $this->player, "do-immediate-respawn", "Immediate Respawn"),
 			"Autosave Interval" =>
 			new EditAutosaveOptions($this->plugin, $this->player),
+			default => null,
 		};
 	}
 

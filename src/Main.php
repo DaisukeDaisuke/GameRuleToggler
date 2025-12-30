@@ -23,13 +23,13 @@ use DaisukeDaisuke\GameRuleToggler\form\AdminSetAllOptions;
 use pocketmine\form\FormValidationException;
 use DaisukeDaisuke\AwaitFormOptions\AwaitFormOptions;
 use SOFe\AwaitGenerator\Await;
-use pocketmine\Server;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
 use cosmicpe\awaitform\AwaitForm;
 use DaisukeDaisuke\GameRuleToggler\form\ConfigOptions;
 use DaisukeDaisuke\AwaitFormOptions\FormOptions;
+use DaisukeDaisuke\GameRuleToggler\form\SettingFormInterface;
 
 final class Main extends PluginBase implements Listener{
 
@@ -98,9 +98,11 @@ final class Main extends PluginBase implements Listener{
 	public function getLocatorRule() : AbstractBoolRule{
 		return $this->rules['locatorBar'];
 	}
-	public function getShowCoordinatesRule() :AbstractBoolRule{
+
+	public function getShowCoordinatesRule() : AbstractBoolRule{
 		return $this->rules['showcoordinates'];
 	}
+
 	public function getDoImmediateRespawnRule() : AbstractBoolRule{
 		return $this->rules['doImmediateRespawn'];
 	}
@@ -208,12 +210,12 @@ final class Main extends PluginBase implements Listener{
 						new ConfigOptions($this, $player),
 					]
 				);
-				/** @var FormOptions $form */
+				/** @var FormOptions|SettingFormInterface $form */
 				$form = $form["result"];
 				while(true){
 					[$result] = yield from AwaitFormOptions::sendFormAsync(
 						player: $player,
-						title: "Autosave Config",
+						title: $form->getTitle(),
 						options: [
 							clone $form,
 						]

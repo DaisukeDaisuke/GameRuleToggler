@@ -10,7 +10,7 @@ use DaisukeDaisuke\GameRuleToggler\Main;
 use pocketmine\player\Player;
 use cosmicpe\awaitform\FormControl;
 
-final class EditRuleOptions extends FormOptions {
+final class EditRuleOptions extends FormOptions implements SettingFormInterface{
 
 	private Main $plugin;
 	private Player $player;
@@ -32,10 +32,10 @@ final class EditRuleOptions extends FormOptions {
 		$cfg = $this->plugin->getConfig();
 		$base = "rules.{$this->ruleKey}.";
 
-		$force = (bool)$cfg->getNested($base . "force", false);
-		$opOnly = (bool)$cfg->getNested($base . "op-only", false);
-		$value = (bool)$cfg->getNested($base . "value", true);
-		$default = (bool)$cfg->getNested($base . "default", true);
+		$force = (bool) $cfg->getNested($base . "force", false);
+		$opOnly = (bool) $cfg->getNested($base . "op-only", false);
+		$value = (bool) $cfg->getNested($base . "value", true);
+		$default = (bool) $cfg->getNested($base . "default", true);
 
 		[$nForce, $nOpOnly, $nValue, $nDefault] = yield from $this->request([
 			FormControl::toggle("Force", $force),
@@ -44,10 +44,10 @@ final class EditRuleOptions extends FormOptions {
 			FormControl::toggle("Default value", $default),
 		]);
 
-		$cfg->setNested($base . "force", (bool)$nForce);
-		$cfg->setNested($base . "op-only", (bool)$nOpOnly);
-		$cfg->setNested($base . "value", (bool)$nValue);
-		$cfg->setNested($base . "default", (bool)$nDefault);
+		$cfg->setNested($base . "force", (bool) $nForce);
+		$cfg->setNested($base . "op-only", (bool) $nOpOnly);
+		$cfg->setNested($base . "value", (bool) $nValue);
+		$cfg->setNested($base . "default", (bool) $nDefault);
 		$this->plugin->saveConfig();
 
 		// 不変 Setting を再生成
@@ -60,5 +60,9 @@ final class EditRuleOptions extends FormOptions {
 
 	protected function userDispose() : void{
 		unset($this->plugin, $this->player);
+	}
+
+	public function getTitle() : string{
+		return $this->title;
 	}
 }
